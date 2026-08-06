@@ -1,0 +1,40 @@
+import { Router } from "express";
+
+import blogRoutes from "./blog.routes";
+import cvRoutes from "./cv.routes";
+import experienceRoutes from "./experience.routes";
+import helpCenterRoutes from "./helpcenter.routes";
+import legalRoutes from "./legal.routes";
+import projectRoutes from "./project.routes";
+import qualificationRoutes from "./qualification.routes";
+import reviewRoutes from "./review.routes";
+import serviceRoutes from "./service.routes";
+import settingsRoutes from "./settings.routes";
+import skillRoutes from "./skill.routes";
+import contactRoutes from "./contact.routes";
+import pricingRoutes from "./pricing.routes";
+import serviceRequestRoutes from "./serviceRequest.routes";
+import statsRoutes from "./stats.routes";
+import bentoImagesRoutes from "./bentoImage.routes";
+import subscriptionRoutes from "./subscription.routes";
+
+const router = Router();
+router.use("/blogs", blogRoutes);
+router.use("/cvs", cvRoutes);
+router.use("/experiences", experienceRoutes);
+router.use("/helpcenters", helpCenterRoutes);
+router.use("/legals", legalRoutes);
+router.use("/projects", projectRoutes);
+router.use("/qualifications", qualificationRoutes);
+router.use("/reviews", reviewRoutes);
+router.use("/services", serviceRoutes);
+router.use("/settings", settingsRoutes);
+router.use("/skills", skillRoutes);
+router.use("/contact", contactRoutes);
+router.use("/pricings", pricingRoutes);
+router.use("/service-request", serviceRequestRoutes);
+router.use("/stats", statsRoutes);
+router.use("/bento-images", bentoImagesRoutes);
+router.use("/subscriptions", subscriptionRoutes);
+
+export default router;
