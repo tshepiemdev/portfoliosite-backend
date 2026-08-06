@@ -32,11 +32,10 @@ interface ISeo {
 export interface IService extends Document {
   name: string;
   slug: string;
-  icon: string;
+  icon?: string;
   shortDescription: string;
   longDescription?: string;
   category: string;
-  icon?: string;
   order: number;
   isActive: boolean;
   isFeatured: boolean;
@@ -81,8 +80,6 @@ const ServiceSchema = new Schema<IService>(
       type: String,
       default: "other",
     },
-
-    icon: String,
 
     order: {
       type: Number,
@@ -165,6 +162,7 @@ ServiceSchema.pre("save", function () {
     });
   }
 });
+
 const Service: Model<IService> = mongoose.model<IService>(
   "Service",
   ServiceSchema,
