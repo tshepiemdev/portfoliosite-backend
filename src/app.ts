@@ -10,7 +10,7 @@ app.use(helmet());
 
 app.use(
   cors({
-    origin: ["https://tshepiem.dev", "http://localhost:5173", "http://localhost:5174"],
+    origin: ["https://tshepiem.dev", "https://www.tshepiem.dev"],
     methods: ["GET", "POST"],
   }),
 );
