@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-
 import routes from "./routes";
 
 const app = express();
@@ -10,7 +9,11 @@ app.use(helmet());
 
 app.use(
   cors({
-    origin: ["https://tshepiem.dev", "https://www.tshepiem.dev"],
+    origin: [
+      process.env.FRONTEND_URL,
+      process.env.DEV_FRONTEND_URL,
+      process.env.DEV_FRONTEND_URL_ALT,
+    ].filter((url): url is string => Boolean(url)),
     methods: ["GET", "POST"],
   }),
 );
