@@ -13,6 +13,7 @@ export const getSettings = async (_req: Request, res: Response) => {
       success: true,
       data: {
         maintenanceMode: settings.maintenanceMode,
+        maintenancePages: settings.maintenancePages,
         title: settings.title,
         message: settings.message,
         ctaText: settings.ctaText,
