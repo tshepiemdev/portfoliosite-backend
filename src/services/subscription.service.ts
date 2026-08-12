@@ -2,6 +2,7 @@ import { render } from "@react-email/render";
 import * as React from "react";
 import { getResend } from "./email.service";
 import Subscription from "../models/subscription.model";
+import EmailEvent from "../models/emailEvent.model";
 import SubscriptionVerification from "../emails/templates/SubscriptionVerification";
 import SubscriptionConfirmation from "../emails/templates/SubscriptionConfirmation";
 import { generateToken } from "../utils/generateToken";
@@ -11,16 +12,21 @@ export const createSubscription = async (email: string) => {
 
   const cleanEmail = email.toLowerCase().trim();
 
-  const verificationToken = generateToken();
-  const unsubscribeToken = generateToken();
-
   let subscription = await Subscription.findOne({
     email: cleanEmail,
   });
 
+  if (subscription?.verified && subscription.isActive) {
+    throw new Error("This email is already subscribed.");
+  }
+
+  const verificationToken = generateToken();
+  const unsubscribeToken = generateToken();
+
   if (!subscription) {
     subscription = new Subscription({
       email: cleanEmail,
+      unsubscribeToken,
     });
   }
 
@@ -53,9 +59,18 @@ export const createSubscription = async (email: string) => {
     html,
   });
 
-  if (resendResponse.error) {
-    throw new Error(resendResponse.error.message);
+  if (resendResponse.error || !resendResponse.data?.id) {
+    throw new Error(
+      "We couldn't send the verification email. Please try again later.",
+    );
   }
+
+  await EmailEvent.create({
+    resendEmailId: resendResponse.data.id,
+    purpose: "subscription_verification",
+    recipient: cleanEmail,
+    status: "sent",
+  });
 
   return subscription;
 };
@@ -88,6 +103,7 @@ export const verifySubscriptionToken = async (token: string) => {
   subscription.verified = true;
   subscription.subscribedAt = new Date();
   subscription.verificationTokenUsed = true;
+  subscription.isActive = true;
 
   await subscription.save();
 
@@ -110,11 +126,13 @@ export const verifySubscriptionToken = async (token: string) => {
       html,
     });
 
-    if (resendResponse.error) {
-      console.error(
-        "Subscription confirmation email failed:",
-        resendResponse.error,
-      );
+    if (!resendResponse.error && resendResponse.data?.id) {
+      await EmailEvent.create({
+        resendEmailId: resendResponse.data.id,
+        purpose: "subscription_confirmation",
+        recipient: subscription.email,
+        status: "sent",
+      });
     }
   } catch (error) {
     console.error("Subscription confirmation email error:", error);
@@ -143,4 +161,43 @@ export const unsubscribeSubscription = async (token: string) => {
     email: subscription.email,
     isActive: subscription.isActive,
   };
+};
+
+export const handleSubscriptionEmailEvent = async (
+  emailId: string,
+  eventType:
+    | "sent"
+    | "delivered"
+    | "delivery_delayed"
+    | "bounced"
+    | "failed"
+    | "complained",
+) => {
+  const emailEvent = await EmailEvent.findOne({
+    resendEmailId: emailId,
+  });
+
+  if (!emailEvent) {
+    return null;
+  }
+
+  emailEvent.status = eventType;
+
+  await emailEvent.save();
+
+  if (
+    emailEvent.purpose === "subscription_verification" &&
+    (eventType === "bounced" || eventType === "complained")
+  ) {
+    const subscription = await Subscription.findOne({
+      email: emailEvent.recipient,
+    });
+
+    if (subscription) {
+      subscription.isActive = false;
+      await subscription.save();
+    }
+  }
+
+  return emailEvent;
 };

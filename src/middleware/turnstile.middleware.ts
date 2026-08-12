@@ -1,47 +1,44 @@
 import { Request, Response, NextFunction } from "express";
 import axios from "axios";
 
-export const verifyCaptcha = async (
+export const verifyTurnstile = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const token = req.body.recaptcha_token;
+    const token = req.body.turnstile_token;
 
     if (!token) {
       return res.status(400).json({
         success: false,
-        message: "Captcha token missing",
+        message: "Turnstile token missing",
       });
     }
 
     const result = await axios.post(
-      "https://www.google.com/recaptcha/api/siteverify",
-      null,
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
       {
-        params: {
-          secret: process.env.RECAPTCHA_SECRET,
-          response: token,
-        },
+        secret: process.env.TURNSTILE_SECRET,
+        response: token,
       },
     );
 
     if (!result.data.success) {
       return res.status(400).json({
         success: false,
-        message: "Captcha failed",
+        message: "Turnstile verification failed",
         errors: result.data["error-codes"],
       });
     }
 
     next();
   } catch (err) {
-    console.error(err);
+    console.error("Turnstile verification error:", err);
 
     return res.status(500).json({
       success: false,
-      message: "Captcha verification error",
+      message: "Turnstile verification error",
     });
   }
 };

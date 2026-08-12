@@ -4,6 +4,7 @@ import {
   createSubscription,
   verifySubscriptionToken,
   unsubscribeSubscription,
+  handleSubscriptionEmailEvent,
 } from "../services/subscription.service";
 
 export const subscribe = async (req: Request, res: Response) => {
@@ -13,7 +14,7 @@ export const subscribe = async (req: Request, res: Response) => {
     if (!email) {
       return res.status(400).json({
         success: false,
-        message: "Email is required",
+        message: "Please enter a valid email address.",
       });
     }
 
@@ -26,9 +27,21 @@ export const subscribe = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("POST /subscriptions error:", error);
 
+    const message =
+      error instanceof Error
+        ? error.message
+        : "We couldn't send the verification email. Please try again later.";
+
+    if (message === "This email is already subscribed.") {
+      return res.status(409).json({
+        success: false,
+        message,
+      });
+    }
+
     return res.status(500).json({
       success: false,
-      message: "Failed to subscribe",
+      message,
     });
   }
 };
@@ -50,7 +63,7 @@ export const verifySubscription = async (req: Request, res: Response) => {
       success: true,
       message: subscription.alreadyVerified
         ? "Your subscription is already verified."
-        : "Your email has been verified. You will now receive new articles.",
+        : "Your subscription has been confirmed.",
       data: subscription,
     });
   } catch (error) {
@@ -108,6 +121,58 @@ export const getSubscriptionCount = async (_req: Request, res: Response) => {
     return res.status(500).json({
       success: false,
       message: "Failed to fetch subscription count",
+    });
+  }
+};
+
+export const subscriptionWebhook = async (req: Request, res: Response) => {
+  try {
+    const event = req.body;
+
+    const eventType = event?.type;
+    const emailId = event?.data?.email_id;
+
+    if (!eventType || !emailId) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid webhook payload",
+      });
+    }
+
+    const supportedEvents = [
+      "email.sent",
+      "email.delivered",
+      "email.delivery_delayed",
+      "email.bounced",
+      "email.failed",
+      "email.complained",
+    ];
+
+    if (!supportedEvents.includes(eventType)) {
+      return res.status(200).json({
+        success: true,
+      });
+    }
+
+    const status = eventType.replace("email.", "") as
+      | "sent"
+      | "delivered"
+      | "delivery_delayed"
+      | "bounced"
+      | "failed"
+      | "complained";
+
+    await handleSubscriptionEmailEvent(emailId, status);
+
+    return res.status(200).json({
+      success: true,
+    });
+  } catch (error) {
+    console.error("POST /subscriptions/webhook error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Webhook processing failed",
     });
   }
 };

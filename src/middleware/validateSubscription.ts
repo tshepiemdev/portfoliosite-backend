@@ -4,6 +4,7 @@ import { z } from "zod";
 const subscriptionSchema = z.object({
   email: z.string().email(),
   website: z.string().optional(),
+  turnstile_token: z.string().min(1),
 });
 
 export const validateSubscription = (

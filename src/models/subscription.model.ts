@@ -5,55 +5,58 @@ export interface ISubscription extends Document {
   verified: boolean;
   verificationToken?: string;
   verificationExpires?: Date;
+  verificationTokenUsed: boolean;
   unsubscribeToken: string;
   isActive: boolean;
   subscribedAt?: Date;
-  verificationTokenUsed: boolean;
 }
 
-const subscriptionSchema = new Schema<ISubscription>({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
-    trim: true,
-  },
+const subscriptionSchema = new Schema<ISubscription>(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
 
-  verified: {
-    type: Boolean,
-    default: false,
-  },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
 
-  verificationToken: {
-    type: String,
-    required: false,
-  },
+    verificationToken: {
+      type: String,
+    },
 
-  verificationExpires: {
-    type: Date,
-    required: false,
-  },
+    verificationExpires: {
+      type: Date,
+    },
 
-  verificationTokenUsed: {
-    type: Boolean,
-    default: false,
-  },
+    verificationTokenUsed: {
+      type: Boolean,
+      default: false,
+    },
 
-  unsubscribeToken: {
-    type: String,
-    required: true,
-  },
+    unsubscribeToken: {
+      type: String,
+      required: true,
+    },
 
-  isActive: {
-    type: Boolean,
-    default: true,
-  },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
 
-  subscribedAt: {
-    type: Date,
+    subscribedAt: {
+      type: Date,
+    },
   },
-});
+  {
+    timestamps: true,
+  },
+);
 
 const Subscription: Model<ISubscription> = mongoose.model<ISubscription>(
   "Subscription",
