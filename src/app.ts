@@ -18,6 +18,13 @@ app.use(
   }),
 );
 
+app.use(
+  "/api/contact/webhook",
+  express.raw({
+    type: "application/json",
+  }),
+);
+
 app.use(express.json());
 
 app.get("/", (_req, res) => {

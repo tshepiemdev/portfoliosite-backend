@@ -15,13 +15,10 @@ export interface IServiceRequest extends Document {
   budget: string;
   startTime: string;
   message?: string;
-
   adminEmailId?: string;
   confirmationEmailId?: string;
-
   adminEmailStatus?: string;
   confirmationEmailStatus?: string;
-
   createdAt: Date;
   updatedAt: Date;
 }

@@ -39,6 +39,13 @@ export const subscribe = async (req: Request, res: Response) => {
       });
     }
 
+    if (message === "Please enter a valid email address.") {
+      return res.status(400).json({
+        success: false,
+        message,
+      });
+    }
+
     return res.status(500).json({
       success: false,
       message,

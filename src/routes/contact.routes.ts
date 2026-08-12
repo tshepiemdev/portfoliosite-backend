@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   sendContactEmails,
   contactWebhook,
+  getContactEmailStatus,
 } from "../controllers/contact.controller";
 import { contactRateLimit } from "../middleware/rateLimit.middleware";
 import { validateContact } from "../middleware/validateContact.middleware";
@@ -18,6 +19,8 @@ router.post(
   validateContact,
   sendContactEmails,
 );
+
+router.get("/status/:mail_ref", getContactEmailStatus);
 
 router.post("/webhook", contactWebhook);
 

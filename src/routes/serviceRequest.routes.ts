@@ -1,5 +1,11 @@
 import { Router } from "express";
-import { sendServiceRequestEmails } from "../controllers/serviceRequest.controller";
+
+import {
+  sendServiceRequestEmails,
+  getServiceRequestStatus,
+  serviceRequestWebhook,
+} from "../controllers/serviceRequest.controller";
+
 import { contactRateLimit } from "../middleware/rateLimit.middleware";
 import { honeypotCheck } from "../middleware/honeypot.middleware";
 import { verifyTurnstile } from "../middleware/turnstile.middleware";
@@ -15,5 +21,9 @@ router.post(
   validateServiceRequest,
   sendServiceRequestEmails,
 );
+
+router.get("/status/:mail_ref", getServiceRequestStatus);
+
+router.post("/webhook", serviceRequestWebhook);
 
 export default router;

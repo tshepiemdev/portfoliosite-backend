@@ -103,6 +103,8 @@ export const verifySubscriptionToken = async (token: string) => {
   subscription.verified = true;
   subscription.subscribedAt = new Date();
   subscription.verificationTokenUsed = true;
+  subscription.verificationToken = undefined;
+  subscription.verificationExpires = undefined;
   subscription.isActive = true;
 
   await subscription.save();
@@ -187,7 +189,9 @@ export const handleSubscriptionEmailEvent = async (
 
   if (
     emailEvent.purpose === "subscription_verification" &&
-    (eventType === "bounced" || eventType === "complained")
+    (eventType === "bounced" ||
+      eventType === "failed" ||
+      eventType === "complained")
   ) {
     const subscription = await Subscription.findOne({
       email: emailEvent.recipient,

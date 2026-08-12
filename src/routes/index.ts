@@ -19,6 +19,7 @@ import bentoImagesRoutes from "./bentoImage.routes";
 import subscriptionRoutes from "./subscription.routes";
 
 const router = Router();
+
 router.use("/blogs", blogRoutes);
 router.use("/cvs", cvRoutes);
 router.use("/experiences", experienceRoutes);

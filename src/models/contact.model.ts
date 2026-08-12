@@ -80,6 +80,7 @@ const contactSchema = new Schema<IContact>(
 
     adminEmailId: {
       type: String,
+      trim: true,
     },
 
     adminEmailStatus: {
@@ -96,6 +97,7 @@ const contactSchema = new Schema<IContact>(
 
     confirmationEmailId: {
       type: String,
+      trim: true,
     },
 
     confirmationEmailStatus: {

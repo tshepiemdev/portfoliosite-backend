@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { render } from "@react-email/render";
 import * as React from "react";
+import { Webhook } from "svix";
 import { getResend } from "../services/email.service";
 import Contact from "../models/contact.model";
 import GetInTouchForm from "../emails/templates/GetInTouchForm";
@@ -68,6 +69,7 @@ export const sendContactEmails = async (req: Request, res: Response) => {
         success: true,
         message:
           "Your message was sent successfully, but we couldn't send the confirmation email.",
+        mail_ref: data.mail_ref,
       });
     }
 
@@ -78,6 +80,7 @@ export const sendContactEmails = async (req: Request, res: Response) => {
     return res.status(200).json({
       success: true,
       message: "Your message was sent successfully.",
+      mail_ref: data.mail_ref,
     });
   } catch (error) {
     console.error("Contact email error:", error);
@@ -89,9 +92,65 @@ export const sendContactEmails = async (req: Request, res: Response) => {
   }
 };
 
+export const getContactEmailStatus = async (req: Request, res: Response) => {
+  try {
+    const { mail_ref } = req.params;
+
+    const contact = await Contact.findOne({
+      mail_ref,
+    }).select("mail_ref confirmationEmailStatus adminEmailStatus");
+
+    if (!contact) {
+      return res.status(404).json({
+        success: false,
+        message: "Contact message not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      mail_ref: contact.mail_ref,
+      confirmationEmailStatus: contact.confirmationEmailStatus || null,
+      adminEmailStatus: contact.adminEmailStatus || null,
+    });
+  } catch (error) {
+    console.error("Get contact email status error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to retrieve email status",
+    });
+  }
+};
+
 export const contactWebhook = async (req: Request, res: Response) => {
   try {
-    const event = req.body;
+    const webhookSecret = process.env.RESEND_WEBHOOK_SECRET;
+
+    if (!webhookSecret) {
+      console.error("RESEND_WEBHOOK_SECRET is not configured");
+
+      return res.status(500).json({
+        success: false,
+        message: "Webhook configuration error",
+      });
+    }
+
+    const webhook = new Webhook(webhookSecret);
+
+    const payload = Buffer.isBuffer(req.body)
+      ? req.body.toString("utf8")
+      : JSON.stringify(req.body);
+
+    const event = webhook.verify(
+      payload,
+      req.headers as Record<string, string>,
+    ) as {
+      type: string;
+      data?: {
+        email_id?: string;
+      };
+    };
 
     const eventType = event?.type;
     const emailId = event?.data?.email_id;
@@ -152,9 +211,9 @@ export const contactWebhook = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("POST /contact/webhook error:", error);
 
-    return res.status(500).json({
+    return res.status(400).json({
       success: false,
-      message: "Webhook processing failed",
+      message: "Invalid webhook signature or payload",
     });
   }
 };
