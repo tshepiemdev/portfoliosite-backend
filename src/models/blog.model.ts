@@ -87,7 +87,7 @@ const BlogSchema = new Schema<IBlog>(
 
     imageUrl: { type: String, default: "" },
 
-    imageSource: { type: String, default: "Unspecified" },
+    imageSource: { type: String, default: "Unspecified source" },
 
     excerpt: { type: String, required: true },
 
