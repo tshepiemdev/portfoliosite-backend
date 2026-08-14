@@ -21,6 +21,8 @@ export interface ISettings extends Omit<Document, "_id"> {
   message: string;
   ctaText: string;
   ctaLink: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const SettingsSchema = new Schema<ISettings>(

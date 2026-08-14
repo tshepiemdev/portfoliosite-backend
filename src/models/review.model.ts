@@ -8,17 +8,24 @@ export interface IReview extends Document {
   testimony?: string;
   isActive: boolean;
   order: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const ReviewSchema = new Schema<IReview>({
-  name: String,
-  position: String,
-  company: String,
-  profileImg: String,
-  testimony: String,
-  isActive: { type: Boolean, default: true, required: true },
-  order: { type: Number, default: 0, required: true },
-});
+const ReviewSchema = new Schema<IReview>(
+  {
+    name: String,
+    position: String,
+    company: String,
+    profileImg: String,
+    testimony: String,
+    isActive: { type: Boolean, default: true, required: true },
+    order: { type: Number, default: 0, required: true },
+  },
+  {
+    timestamps: true,
+  },
+);
 
 const Review: Model<IReview> = mongoose.model<IReview>("Review", ReviewSchema);
 

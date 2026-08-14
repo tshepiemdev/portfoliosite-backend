@@ -9,6 +9,8 @@ export interface ISubscription extends Document {
   unsubscribeToken: string;
   isActive: boolean;
   subscribedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const subscriptionSchema = new Schema<ISubscription>(

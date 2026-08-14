@@ -5,34 +5,37 @@ export interface IStat extends Document {
   awards: number;
   yearsActive: number;
   isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const StatSchema = new Schema<IStat>({
-  clients: {
-    type: Number,
-    default: 0,
+const StatSchema = new Schema<IStat>(
+  {
+    clients: {
+      type: Number,
+      default: 0,
+    },
+
+    awards: {
+      type: Number,
+      default: 0,
+    },
+
+    yearsActive: {
+      type: Number,
+      default: 0,
+    },
+
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
-
-  awards: {
-    type: Number,
-    default: 0,
+  {
+    timestamps: true,
   },
-
-  yearsActive: {
-    type: Number,
-    default: 0,
-  },
-
-  isActive: {
-    type: Boolean,
-    default: true,
-  },
-});
-
-
-const Stat: Model<IStat> = mongoose.model<IStat>(
-  "Stat",
-  StatSchema
 );
+
+const Stat: Model<IStat> = mongoose.model<IStat>("Stat", StatSchema);
 
 export default Stat;

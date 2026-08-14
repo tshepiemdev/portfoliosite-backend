@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model, CallbackError } from "mongoose";
+import mongoose, { Schema, Document, Model } from "mongoose";
 import slugify from "slugify";
 
 interface ISection {
@@ -24,6 +24,8 @@ export interface IBlog extends Document {
   imageSource: string;
   excerpt: string;
   views: number;
+  createdAt: Date;
+  updatedAt: Date;
   content: {
     intro?: string;
     sections: ISection[];
@@ -46,12 +48,10 @@ const SectionSchema = new Schema<ISection>(
         enum: ["youtube", "vimeo", "loom", "direct", "other"],
       },
     },
-
     heading: {
       type: String,
       required: true,
     },
-
     body: {
       type: String,
       required: true,

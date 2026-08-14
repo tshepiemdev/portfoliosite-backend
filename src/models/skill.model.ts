@@ -5,18 +5,25 @@ export interface ISkill extends Document {
   img?: string;
   items?: string[];
   isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const SkillSchema = new Schema<ISkill>({
-  category: String,
-  img: String,
-  items: [String],
+const SkillSchema = new Schema<ISkill>(
+  {
+    category: String,
+    img: String,
+    items: [String],
 
-  isActive: {
-    type: Boolean,
-    default: true,
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
-});
+  {
+    timestamps: true,
+  },
+);
 
 const Skill: Model<ISkill> = mongoose.model<ISkill>("Skill", SkillSchema);
 

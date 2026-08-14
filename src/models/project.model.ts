@@ -21,67 +21,74 @@ export interface IProject extends Document {
   teamSize?: number;
   projectLiveLink?: string;
   projectRepoLink?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const ProjectSchema = new Schema<IProject>({
-  projectIcon: String,
+const ProjectSchema = new Schema<IProject>(
+  {
+    projectIcon: String,
 
-  projectImages: [String],
+    projectImages: [String],
 
-  projectName: {
-    type: String,
-    required: true,
+    projectName: {
+      type: String,
+      required: true,
+    },
+
+    slug: {
+      type: String,
+      unique: true,
+      lowercase: true,
+      index: true,
+    },
+
+    projectType: String,
+
+    projectCategory: String,
+
+    projectOwnership: String,
+
+    projectStatus: String,
+
+    views: {
+      type: Number,
+      default: 0,
+    },
+
+    isActive: {
+      type: Boolean,
+      default: false,
+    },
+
+    isProjNew: {
+      type: Boolean,
+      default: false,
+    },
+
+    order: {
+      type: Number,
+      default: 0,
+    },
+
+    projectShortDescription: String,
+
+    projectStack: [String],
+
+    keyFeatures: [String],
+
+    role: String,
+
+    teamSize: Number,
+
+    projectLiveLink: String,
+
+    projectRepoLink: String,
   },
-
-  slug: {
-    type: String,
-    unique: true,
-    lowercase: true,
-    index: true,
+  {
+    timestamps: true,
   },
-
-  projectType: String,
-
-  projectCategory: String,
-
-  projectOwnership: String,
-
-  projectStatus: String,
-
-  views: {
-    type: Number,
-    default: 0,
-  },
-
-  isActive: {
-    type: Boolean,
-    default: false,
-  },
-
-  isProjNew: {
-    type: Boolean,
-    default: false,
-  },
-
-  order: {
-    type: Number,
-    default: 0,
-  },
-
-  projectShortDescription: String,
-
-  projectStack: [String],
-
-  keyFeatures: [String],
-
-  role: String,
-
-  teamSize: Number,
-
-  projectLiveLink: String,
-
-  projectRepoLink: String,
-});
+);
 
 ProjectSchema.pre("save", function () {
   if (!this.slug || this.isModified("projectName")) {

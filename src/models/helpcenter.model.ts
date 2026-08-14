@@ -13,6 +13,8 @@ export interface IHelpCenter extends Document {
   articles: IHelpArticle[];
   order: number;
   isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const helpArticleSchema = new Schema<IHelpArticle>(

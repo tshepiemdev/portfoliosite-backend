@@ -22,6 +22,8 @@ export interface IContact extends Document {
   adminEmailStatus?: ContactEmailStatus;
   confirmationEmailId?: string;
   confirmationEmailStatus?: ContactEmailStatus;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const contactSchema = new Schema<IContact>(

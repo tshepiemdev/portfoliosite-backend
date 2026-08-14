@@ -10,22 +10,29 @@ export interface IExperience extends Document {
   responsibilities?: string[];
   order: number;
   isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const experienceSchema = new Schema<IExperience>({
-  company: { type: String, required: true },
-  position: String,
-  from: String,
-  to: String,
-  timelapse: String,
-  location: String,
-  responsibilities: [String],
-  order: { type: Number, default: 0, required: true },
-  isActive: {
-    type: Boolean,
-    default: true,
+const experienceSchema = new Schema<IExperience>(
+  {
+    company: { type: String, required: true },
+    position: String,
+    from: String,
+    to: String,
+    timelapse: String,
+    location: String,
+    responsibilities: [String],
+    order: { type: Number, default: 0, required: true },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
-});
+  {
+    timestamps: true,
+  },
+);
 
 const Experience: Model<IExperience> = mongoose.model<IExperience>(
   "Experience",

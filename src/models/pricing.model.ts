@@ -20,6 +20,8 @@ export interface IPricing extends Document {
   type: ServiceType;
   packages: IPackage[];
   isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const PackageSchema = new Schema<IPackage>({
@@ -39,19 +41,24 @@ const PackageSchema = new Schema<IPackage>({
   ctaLink: { type: String, required: true },
 });
 
-const PricingSchema = new Schema<IPricing>({
-  type: {
-    type: String,
-    enum: ["web", "webapp", "mobile", "hosting"],
-    required: true,
-    unique: true,
+const PricingSchema = new Schema<IPricing>(
+  {
+    type: {
+      type: String,
+      enum: ["web", "webapp", "mobile", "hosting"],
+      required: true,
+      unique: true,
+    },
+    packages: [PackageSchema],
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
-  packages: [PackageSchema],
-  isActive: {
-    type: Boolean,
-    default: true,
+  {
+    timestamps: true,
   },
-});
+);
 
 const Pricing: Model<IPricing> = mongoose.model<IPricing>(
   "Pricing",

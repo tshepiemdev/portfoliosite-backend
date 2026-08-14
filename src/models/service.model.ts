@@ -48,6 +48,8 @@ export interface IService extends Document {
   availability: IAvailability;
   legal: ILegalRef[];
   seo: ISeo;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const ServiceSchema = new Schema<IService>(

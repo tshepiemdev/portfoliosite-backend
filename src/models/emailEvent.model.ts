@@ -17,6 +17,8 @@ export interface IEmailEvent extends Document {
     | "bounced"
     | "failed"
     | "complained";
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const emailEventSchema = new Schema<IEmailEvent>(

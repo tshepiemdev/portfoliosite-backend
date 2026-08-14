@@ -12,30 +12,37 @@ export interface ILegal extends Document {
   last_update_date: string;
   isActive: boolean;
   order: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const LegalSchema = new Schema<ILegal>({
-  name: { type: String, required: true },
+const LegalSchema = new Schema<ILegal>(
+  {
+    name: { type: String, required: true },
 
-  slug: {
-    type: String,
-    unique: true,
-    lowercase: true,
+    slug: {
+      type: String,
+      unique: true,
+      lowercase: true,
+    },
+
+    text: { type: String, required: true },
+    for: { type: String, required: true },
+    company: { type: String, required: true },
+    company_address: { type: String, required: true },
+    copyright_start: { type: String, required: true },
+    last_update_date: { type: String, required: true },
+
+    isActive: { type: Boolean, default: true },
+    order: { type: Number, default: 0 },
   },
-
-  text: { type: String, required: true },
-  for: { type: String, required: true },
-  company: { type: String, required: true },
-  company_address: { type: String, required: true },
-  copyright_start: { type: String, required: true },
-  last_update_date: { type: String, required: true },
-
-  isActive: { type: Boolean, default: true },
-  order: { type: Number, default: 0 },
-});
+  {
+    timestamps: true,
+  },
+);
 
 LegalSchema.pre("save", function () {
-  if (!this.slug || this.isModified("title")) {
+  if (!this.slug || this.isModified("name")) {
     this.slug = slugify(this.name, {
       lower: true,
       strict: true,

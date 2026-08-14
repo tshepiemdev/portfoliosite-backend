@@ -24,7 +24,7 @@ const bentoImageSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export default mongoose.model("BentoImage", bentoImageSchema);
