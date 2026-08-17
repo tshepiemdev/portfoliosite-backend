@@ -46,7 +46,7 @@ export const sendServiceRequestEmails = async (req: Request, res: Response) => {
     const adminResult = await resend.emails.send({
       from: "tshepiem.dev <services@tshepiem.dev>",
       to: process.env.DEV_SERVICE_EMAIL!,
-      subject: `New Service Request - Reference ${serviceRequestData.mail_ref}`,
+      subject: `New Service Request`,
       html: adminHtml,
     });
 
@@ -77,7 +77,7 @@ export const sendServiceRequestEmails = async (req: Request, res: Response) => {
     const userResult = await resend.emails.send({
       from: "tshepiem.dev <services@tshepiem.dev>",
       to: serviceRequestData.email,
-      subject: `Your Service Request Was Received - Reference ${serviceRequestData.mail_ref}`,
+      subject: `Your Service Request Was Received`,
       html: userHtml,
     });
 

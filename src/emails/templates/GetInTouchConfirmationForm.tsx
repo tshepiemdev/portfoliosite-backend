@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Html, Body, Text, Preview, Container } from "@react-email/components";
 import Footer from "../components/Footer";
-import ButtonCta from "../components/ButtonCta";
 import EmailTitle from "../components/EmailTitle";
 import EmailLogo from "../components/EmailLogo";
 
@@ -33,14 +32,14 @@ export default function GetInTouchConfirmationForm({
 
   const textStyle = {
     margin: "2px 0",
-    fontSize: "16px",
+    fontSize: "14px",
     lineHeight: "1.4",
     fontFamily: "Arial, sans-serif",
   };
 
   const listStyle = {
     margin: "2px 0",
-    fontSize: "18px",
+    fontSize: "16px",
     lineHeight: "1.4",
     fontFamily: "'Instrument Serif', Georgia, serif",
     padding: "8px 0",
@@ -49,23 +48,20 @@ export default function GetInTouchConfirmationForm({
 
   return (
     <Html>
-      <Preview>
-        Thank you for getting in touch. Your message has been received and I
-        will get back to you soon.
-      </Preview>
+      <Preview>Thank you for getting in touch.</Preview>
 
       <Body
         style={{
           margin: 0,
           padding: "12px 0 0",
           backgroundColor: "#FFFFFF",
-          fontSize: "16px",
+          fontSize: "14px",
           fontFamily: "Arial, sans-serif",
         }}
       >
         <Container
           style={{
-            maxWidth: "500px",
+            maxWidth: "680px",
             margin: "0 auto",
             padding: 0,
           }}
@@ -87,7 +83,7 @@ export default function GetInTouchConfirmationForm({
             <Container style={{ margin: 0, marginBottom: "32px" }}>
               <Text style={textStyle}>Hi {data.firstName},</Text>
 
-              <Text style={{ fontSize: "16px", lineHeight: "1.5" }}>
+              <Text style={textStyle}>
                 Thank you for getting in touch. I have received your message and
                 will review the details you provided before getting back to you.
               </Text>
@@ -120,27 +116,23 @@ export default function GetInTouchConfirmationForm({
 
               <Text style={headerStyle}>Your Message</Text>
 
-              <Text style={{ fontSize: "16px", lineHeight: "1.5" }}>
-                {data.message}
-              </Text>
+              <Text style={textStyle}>{data.message}</Text>
 
               <Text
                 style={{
                   fontSize: "12px",
                   lineHeight: "1.5",
-                  margin: "48px 0 16px",
+                  margin: "16px 0 16px",
                   opacity: 0.8,
                 }}
               >
-                * I will respond as soon as possible. You can expect a reply
+                *I will respond as soon as possible. You can expect a reply
                 within 7 business days depending on the nature of your inquiry.
               </Text>
             </Container>
-
-            <ButtonCta text="Explore my portfolio" to="https://tshepiem.dev" />
           </Container>
 
-          <Footer from_email={data.dev_email} to_email={data.email} />
+          <Footer to_email={data.email} />
         </Container>
       </Body>
     </Html>

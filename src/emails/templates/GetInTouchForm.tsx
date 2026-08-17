@@ -37,14 +37,14 @@ export default function GetInTouchRequestForm({
 
   const textStyle = {
     margin: "2px 0",
-    fontSize: "16px",
+    fontSize: "14px",
     lineHeight: "1.4",
     fontFamily: "Arial, sans-serif",
   };
 
   const listStyle = {
     margin: "2px 0",
-    fontSize: "18px",
+    fontSize: "16px",
     lineHeight: "1.4",
     fontFamily: "'Instrument Serif', Georgia, serif",
     padding: "8px 0",
@@ -62,13 +62,13 @@ export default function GetInTouchRequestForm({
           margin: 0,
           padding: "12px 0 0",
           backgroundColor: "#FFFFFF",
-          fontSize: "16px",
+          fontSize: "14px",
           fontFamily: "Arial, sans-serif",
         }}
       >
         <Container
           style={{
-            maxWidth: "500px",
+            maxWidth: "680px",
             margin: "0 auto",
             padding: 0,
           }}
@@ -76,7 +76,7 @@ export default function GetInTouchRequestForm({
           <Container
             style={{
               margin: 0,
-              padding: "16px",
+              padding: "16px 16px 48px",
             }}
           >
             <EmailLogo />
@@ -159,7 +159,7 @@ export default function GetInTouchRequestForm({
             <Text
               style={{
                 margin: "2px 0 32px",
-                fontSize: "16px",
+                fontSize: "14px",
                 lineHeight: "1.5",
                 fontFamily: "Arial, sans-serif",
               }}
@@ -173,7 +173,7 @@ export default function GetInTouchRequestForm({
             />
           </Container>
 
-          <Footer from_email={data.dev_email} to_email={data.email} />
+          <Footer to_email={data.email} />
         </Container>
       </Body>
     </Html>

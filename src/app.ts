@@ -19,7 +19,7 @@ app.use(
 );
 
 app.use(
-  "/api/contact/webhook",
+  "/api/webhooks/resend",
   express.raw({
     type: "application/json",
   }),

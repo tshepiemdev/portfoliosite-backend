@@ -32,7 +32,7 @@ export const sendContactEmails = async (req: Request, res: Response) => {
     const adminResponse = await resend.emails.send({
       from: "tshepiem.dev <hello@tshepiem.dev>",
       to: process.env.DEV_CONTACT_EMAIL!,
-      subject: `New Contact Message - Reference ${data.mail_ref}`,
+      subject: `New Message`,
       html: adminHtml,
     });
 
@@ -57,7 +57,7 @@ export const sendContactEmails = async (req: Request, res: Response) => {
     const userResponse = await resend.emails.send({
       from: "tshepiem.dev <hello@tshepiem.dev>",
       to: data.email,
-      subject: `Your Message Was Received - Reference ${data.mail_ref}`,
+      subject: `Your Message Was Received`,
       html: userHtml,
     });
 

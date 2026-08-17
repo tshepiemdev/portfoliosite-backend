@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  Html,
-  Body,
-  Text,
-  Preview,
-  Container,
-  Img,
-} from "@react-email/components";
+import { Html, Body, Text, Preview, Container } from "@react-email/components";
 import Footer from "../components/Footer";
 import EmailTitle from "../components/EmailTitle";
 import EmailLogo from "../components/EmailLogo";
@@ -24,14 +17,14 @@ export default function SubscriptionConfirmation({
   data,
 }: SubscriptionConfirmationProps) {
   const textStyle = {
-    fontSize: "16px",
-    lineHeight: "1.5",
+    fontSize: "14px",
+    lineHeight: "1.2",
     fontFamily: "Arial, sans-serif",
   };
 
   const listStyle = {
     margin: "2px 0",
-    fontSize: "18px",
+    fontSize: "16px",
     lineHeight: "1.4",
     fontFamily: "'Instrument Serif', Georgia, serif",
     padding: "8px 0",
@@ -50,23 +43,20 @@ export default function SubscriptionConfirmation({
 
   return (
     <Html>
-      <Preview>
-        Congratulations! Your subscription to the tshepiem.dev blog is now
-        active.
-      </Preview>
+      <Preview>Congratulations! Your blog subscription is now active.</Preview>
 
       <Body
         style={{
           margin: 0,
           padding: "12px 0 0",
           backgroundColor: "#FFFFFF",
-          fontSize: "16px",
+          fontSize: "14px",
           fontFamily: "Arial, sans-serif",
         }}
       >
         <Container
           style={{
-            maxWidth: "500px",
+            maxWidth: "680px",
             margin: "0 auto",
             padding: 0,
           }}
@@ -80,24 +70,12 @@ export default function SubscriptionConfirmation({
             <EmailLogo />
 
             <EmailTitle marginBottom="32">
-              Congratulations! <br />
-              Your Blog Subscription <br />
+              Congratulations!
+              <br />
+              Your Blog Subscription
+              <br />
               Is Now Active
             </EmailTitle>
-
-            <Img
-              src="https://res.cloudinary.com/dea3pml8w/image/upload/blog-subscription-email-banner.png"
-              width="600"
-              alt="banner"
-              style={{
-                display: "block",
-                width: "100%",
-                maxWidth: "600px",
-                height: "auto",
-                margin: "0 0 32px",
-                objectFit: "cover",
-              }}
-            />
 
             <Container style={{ margin: 0, marginBottom: "32px" }}>
               <Text style={textStyle}>Hi there,</Text>
@@ -155,11 +133,7 @@ export default function SubscriptionConfirmation({
             </Text>
           </Container>
 
-          <Footer
-            from_email="hello@tshepiem.dev"
-            to_email={data.email}
-            unsubscribeUrl={data.unsubscribeUrl}
-          />
+          <Footer to_email={data.email} unsubscribeUrl={data.unsubscribeUrl} />
         </Container>
       </Body>
     </Html>

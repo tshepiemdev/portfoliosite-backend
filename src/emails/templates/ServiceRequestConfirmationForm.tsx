@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Html, Body, Text, Preview, Container } from "@react-email/components";
 import Footer from "../components/Footer";
-import ButtonCta from "../components/ButtonCta";
 import EmailTitle from "../components/EmailTitle";
 import EmailLogo from "../components/EmailLogo";
 
@@ -37,14 +36,14 @@ export default function ServiceRequestConfirmationForm({
 
   const textStyle = {
     margin: "2px 0",
-    fontSize: "16px",
+    fontSize: "14px",
     lineHeight: "1.4",
     fontFamily: "Arial, sans-serif",
   };
 
   const listStyle = {
     margin: "2px 0",
-    fontSize: "18px",
+    fontSize: "16px",
     lineHeight: "1.4",
     fontFamily: "'Instrument Serif', Georgia, serif",
     padding: "8px 0",
@@ -53,23 +52,20 @@ export default function ServiceRequestConfirmationForm({
 
   return (
     <Html>
-      <Preview>
-        Thank you for submitting your service request. I will review the details
-        provided and get back to you with the next steps.
-      </Preview>
+      <Preview>Thank you for submitting your service request.</Preview>
 
       <Body
         style={{
           margin: 0,
           padding: "12px 0 0",
           backgroundColor: "#FFFFFF",
-          fontSize: "16px",
+          fontSize: "14px",
           fontFamily: "Arial, sans-serif",
         }}
       >
         <Container
           style={{
-            maxWidth: "500px",
+            maxWidth: "680px",
             margin: "0 auto",
             padding: 0,
           }}
@@ -88,10 +84,10 @@ export default function ServiceRequestConfirmationForm({
               Was Received
             </EmailTitle>
 
-            <Container style={{ margin: 0, marginBottom: "32px" }}>
+            <Container style={{ margin: 0, marginBottom: "48px" }}>
               <Text style={textStyle}>Hi {data.firstName},</Text>
 
-              <Text style={{ fontSize: "16px", lineHeight: "1.5" }}>
+              <Text style={textStyle}>
                 Thank you for submitting your service request. I will review the
                 details you provided and get back to you with the next steps.
               </Text>
@@ -126,14 +122,22 @@ export default function ServiceRequestConfirmationForm({
 
               <Text style={headerStyle}>Reference</Text>
 
-              <Text style={textStyle}>{data.mail_ref}</Text>
+              <Text
+                style={{
+                  margin: "2px 0",
+                  fontSize: "16px",
+                  lineHeight: "1.4",
+                  fontFamily: "'Instrument Serif', Georgia, serif",
+                  padding: "8px 0",
+                }}
+              >
+                {data.mail_ref}
+              </Text>
 
               <Text
                 style={{
-                  fontSize: "16px",
+                  fontSize: "14px",
                   lineHeight: "1.5",
-                  paddingTop: "16px",
-                  borderTop: "2.5px dotted #CCCCCC",
                   marginTop: "32px",
                 }}
               >
@@ -146,7 +150,7 @@ export default function ServiceRequestConfirmationForm({
                 style={{
                   fontSize: "12px",
                   lineHeight: "1.5",
-                  margin: "48px 0 16px",
+                  margin: "16px 0 0",
                   opacity: 0.8,
                 }}
               >
@@ -154,14 +158,9 @@ export default function ServiceRequestConfirmationForm({
                 current developer availability and available resources.
               </Text>
             </Container>
-
-            <ButtonCta
-              text="Browse more services"
-              to="https://tshepiem.dev/services"
-            />
           </Container>
 
-          <Footer from_email={data.dev_email} to_email={data.email} />
+          <Footer to_email={data.email} />
         </Container>
       </Body>
     </Html>

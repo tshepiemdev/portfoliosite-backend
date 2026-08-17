@@ -4,7 +4,6 @@ import {
   verifySubscription,
   unsubscribe,
   getSubscriptionCount,
-  subscriptionWebhook,
 } from "../controllers/subscription.controller";
 import { subscriptionRateLimit } from "../middleware/subscriptionRateLimit";
 import { honeypotCheck } from "../middleware/honeypot.middleware";
@@ -21,8 +20,6 @@ router.post(
   verifyTurnstile,
   subscribe,
 );
-
-router.post("/webhook", subscriptionWebhook);
 
 router.get("/verify/:token", verifySubscription);
 

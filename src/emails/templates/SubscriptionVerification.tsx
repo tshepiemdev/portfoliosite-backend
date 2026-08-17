@@ -26,14 +26,14 @@ export default function SubscriptionVerification({
   data,
 }: SubscriptionVerificationProps) {
   const textStyle = {
-    fontSize: "16px",
-    lineHeight: "1.5",
+    fontSize: "14px",
+    lineHeight: "1.2",
     fontFamily: "Arial, sans-serif",
   };
 
   const listStyle = {
     margin: "2px 0",
-    fontSize: "18px",
+    fontSize: "16px",
     lineHeight: "1.4",
     fontFamily: "'Instrument Serif', Georgia, serif",
     padding: "8px 0",
@@ -43,8 +43,8 @@ export default function SubscriptionVerification({
   return (
     <Html>
       <Preview>
-        Confirm your subscription to receive new articles from tshepiem.dev
-        blog.
+        Confirm your blog subscription to start receiving new articles from
+        tshepiem.dev.
       </Preview>
 
       <Body
@@ -52,13 +52,13 @@ export default function SubscriptionVerification({
           margin: 0,
           padding: "12px 0 0",
           backgroundColor: "#FFFFFF",
-          fontSize: "16px",
+          fontSize: "14px",
           fontFamily: "Arial, sans-serif",
         }}
       >
         <Container
           style={{
-            maxWidth: "500px",
+            maxWidth: "680px",
             margin: "0 auto",
             padding: 0,
           }}
@@ -91,7 +91,7 @@ export default function SubscriptionVerification({
                     textDecoration: "underline",
                   }}
                 >
-                  Terms.
+                  Terms
                 </Link>{" "}
                 apply.
               </Text>
@@ -117,13 +117,13 @@ export default function SubscriptionVerification({
                 <li
                   style={{
                     margin: "2px 0",
-                    fontSize: "18px",
+                    fontSize: "16px",
                     lineHeight: "1.4",
                     fontFamily: "'Instrument Serif', Georgia, serif",
                     padding: "8px 0",
                   }}
                 >
-                  Status: Pending (Awaiting your confirmation)
+                  Status: Awaiting your confirmation
                 </li>
               </ul>
             </Container>
@@ -138,16 +138,13 @@ export default function SubscriptionVerification({
                 opacity: 0.8,
               }}
             >
-              *If you did not request this subscription, you can safely ignore
-              this email or alternatively contact support@tshepiem.dev.
+              *If you did not request to subscribe, you can safely ignore this
+              email. If you have any concerns, please contact
+              support@tshepiem.dev
             </Text>
           </Container>
 
-          <Footer
-            from_email="hello@tshepiem.dev"
-            to_email={data.email}
-            unsubscribeUrl={data.unsubscribeUrl}
-          />
+          <Footer to_email={data.email} unsubscribeUrl={data.unsubscribeUrl} />
         </Container>
       </Body>
     </Html>

@@ -17,6 +17,7 @@ import serviceRequestRoutes from "./serviceRequest.routes";
 import statsRoutes from "./stats.routes";
 import bentoImagesRoutes from "./bentoImage.routes";
 import subscriptionRoutes from "./subscription.routes";
+import resendWebhookRoutes from "./resendWebhook.routes";
 
 const router = Router();
 
@@ -37,5 +38,6 @@ router.use("/service-request", serviceRequestRoutes);
 router.use("/stats", statsRoutes);
 router.use("/bento-images", bentoImagesRoutes);
 router.use("/subscriptions", subscriptionRoutes);
+router.use("/webhooks/resend", resendWebhookRoutes);
 
 export default router;
