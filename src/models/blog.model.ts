@@ -17,7 +17,7 @@ export interface IBlog extends Document {
   category: string;
   author: string;
   authorProfileImg: string;
-  publishedDate: Date;
+  publishedAt: Date;
   isFeatured: boolean;
   isActive: boolean;
   imageUrl: string;
@@ -62,7 +62,11 @@ const SectionSchema = new Schema<ISection>(
 
 const BlogSchema = new Schema<IBlog>(
   {
-    title: { type: String, required: true, trim: true },
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+    },
 
     slug: {
       type: String,
@@ -71,25 +75,55 @@ const BlogSchema = new Schema<IBlog>(
       index: true,
     },
 
-    category: { type: String, default: "general" },
-    author: { type: String, default: "Developer" },
-    authorProfileImg: { type: String, default: "" },
+    category: {
+      type: String,
+      default: "general",
+    },
 
-    publishedDate: { type: Date, default: Date.now },
+    author: {
+      type: String,
+      default: "Developer",
+    },
 
-    isFeatured: { type: Boolean, default: false },
-    isActive: { type: Boolean, default: true },
+    authorProfileImg: {
+      type: String,
+      default: "",
+    },
+
+    publishedAt: {
+      type: Date,
+      default: Date.now,
+    },
+
+    isFeatured: {
+      type: Boolean,
+      default: false,
+    },
+
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
 
     views: {
       type: Number,
       default: 0,
     },
 
-    imageUrl: { type: String, default: "" },
+    imageUrl: {
+      type: String,
+      default: "",
+    },
 
-    imageSource: { type: String, default: "Unspecified source" },
+    imageSource: {
+      type: String,
+      default: "Unspecified source",
+    },
 
-    excerpt: { type: String, required: true },
+    excerpt: {
+      type: String,
+      required: true,
+    },
 
     content: {
       intro: String,
