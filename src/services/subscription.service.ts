@@ -72,7 +72,10 @@ export const createSubscription = async (email: string) => {
     status: "sent",
   });
 
-  return subscription;
+  return {
+    subscription,
+    emailId: resendResponse.data.id,
+  };
 };
 
 export const verifySubscriptionToken = async (token: string) => {

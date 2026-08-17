@@ -4,6 +4,7 @@ import {
   verifySubscription,
   unsubscribe,
   getSubscriptionCount,
+  getEmailStatus,
 } from "../controllers/subscription.controller";
 import { subscriptionRateLimit } from "../middleware/subscriptionRateLimit";
 import { honeypotCheck } from "../middleware/honeypot.middleware";
@@ -20,6 +21,8 @@ router.post(
   verifyTurnstile,
   subscribe,
 );
+
+router.get("/email-status/:emailId", getEmailStatus);
 
 router.get("/verify/:token", verifySubscription);
 

@@ -91,7 +91,7 @@ export default function SubscriptionVerification({
                     textDecoration: "underline",
                   }}
                 >
-                  Terms
+                  Subscription terms
                 </Link>{" "}
                 apply.
               </Text>

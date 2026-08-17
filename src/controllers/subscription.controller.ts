@@ -5,6 +5,7 @@ import {
   verifySubscriptionToken,
   unsubscribeSubscription,
 } from "../services/subscription.service";
+import { getEmailEventById } from "../services/emailEvent.service";
 
 export const subscribe = async (req: Request, res: Response) => {
   try {
@@ -17,11 +18,12 @@ export const subscribe = async (req: Request, res: Response) => {
       });
     }
 
-    await createSubscription(email);
+    const result = await createSubscription(email);
 
     return res.status(201).json({
       success: true,
       message: "Please check your email to confirm your subscription.",
+      emailId: result.emailId,
     });
   } catch (error) {
     console.error("POST /subscriptions error:", error);
@@ -48,6 +50,40 @@ export const subscribe = async (req: Request, res: Response) => {
     return res.status(500).json({
       success: false,
       message,
+    });
+  }
+};
+
+export const getEmailStatus = async (req: Request, res: Response) => {
+  try {
+    const { emailId } = req.params;
+
+    if (typeof emailId !== "string" || !emailId) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid email ID",
+      });
+    }
+
+    const emailEvent = await getEmailEventById(emailId);
+
+    if (!emailEvent) {
+      return res.status(404).json({
+        success: false,
+        message: "Email event not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      status: emailEvent.status,
+    });
+  } catch (error) {
+    console.error("GET /subscriptions/email-status error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch email status",
     });
   }
 };

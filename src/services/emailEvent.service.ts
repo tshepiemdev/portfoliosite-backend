@@ -48,3 +48,9 @@ export const handleEmailEvent = async (
 
   return emailEvent;
 };
+
+export const getEmailEventById = async (emailId: string) => {
+  return EmailEvent.findOne({
+    resendEmailId: emailId,
+  }).lean();
+};
