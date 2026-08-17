@@ -10,6 +10,7 @@ import { subscriptionRateLimit } from "../middleware/subscriptionRateLimit";
 import { honeypotCheck } from "../middleware/honeypot.middleware";
 import { validateSubscription } from "../middleware/validateSubscription";
 import { verifyTurnstile } from "../middleware/turnstile.middleware";
+import { getSubscriptionEmailStatus } from "../controllers/emailEvent.controller";
 
 const router = Router();
 
@@ -29,5 +30,7 @@ router.get("/verify/:token", verifySubscription);
 router.get("/unsubscribe/:token", unsubscribe);
 
 router.get("/count", getSubscriptionCount);
+
+router.get("/email-status/:emailId", getSubscriptionEmailStatus);
 
 export default router;

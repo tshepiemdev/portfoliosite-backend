@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import Subscription from "../models/subscription.model";
+import EmailEvent from "../models/emailEvent.model";
 import {
   createSubscription,
   verifySubscriptionToken,
   unsubscribeSubscription,
 } from "../services/subscription.service";
-import { getEmailEventById } from "../services/emailEvent.service";
 
 export const subscribe = async (req: Request, res: Response) => {
   try {
@@ -58,19 +58,21 @@ export const getEmailStatus = async (req: Request, res: Response) => {
   try {
     const { emailId } = req.params;
 
-    if (typeof emailId !== "string" || !emailId) {
+    if (!emailId || typeof emailId !== "string") {
       return res.status(400).json({
         success: false,
-        message: "Invalid email ID",
+        message: "Invalid email ID.",
       });
     }
 
-    const emailEvent = await getEmailEventById(emailId);
+    const emailEvent = await EmailEvent.findOne({
+      resendEmailId: emailId,
+    });
 
     if (!emailEvent) {
       return res.status(404).json({
         success: false,
-        message: "Email event not found",
+        message: "Email status not found.",
       });
     }
 
@@ -79,11 +81,11 @@ export const getEmailStatus = async (req: Request, res: Response) => {
       status: emailEvent.status,
     });
   } catch (error) {
-    console.error("GET /subscriptions/email-status error:", error);
+    console.error("GET /subscriptions/status error:", error);
 
     return res.status(500).json({
       success: false,
-      message: "Failed to fetch email status",
+      message: "Failed to check email status.",
     });
   }
 };

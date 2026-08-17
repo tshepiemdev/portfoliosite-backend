@@ -49,8 +49,15 @@ export const handleEmailEvent = async (
   return emailEvent;
 };
 
-export const getEmailEventById = async (emailId: string) => {
-  return EmailEvent.findOne({
+export const getEmailEventStatus = async (emailId: string) => {
+  const emailEvent = await EmailEvent.findOne({
     resendEmailId: emailId,
-  }).lean();
+    purpose: "subscription_verification",
+  }).select("status");
+
+  if (!emailEvent) {
+    return null;
+  }
+
+  return emailEvent.status;
 };
