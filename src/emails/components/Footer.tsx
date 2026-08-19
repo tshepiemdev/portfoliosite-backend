@@ -184,7 +184,7 @@ export default function Footer({ to_email, unsubscribeUrl }: FooterProps) {
 
       <Row
         style={{
-          marginTop: "32px",
+          marginTop: "8px",
           marginBottom: "8px",
         }}
       >
