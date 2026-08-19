@@ -1,5 +1,14 @@
 import mongoose, { Document, Schema } from "mongoose";
 
+export type ServiceRequestEmailStatus =
+  | "pending"
+  | "sent"
+  | "delivered"
+  | "delivery_delayed"
+  | "bounced"
+  | "failed"
+  | "complained";
+
 export interface IServiceRequest extends Document {
   mail_ref: string;
   firstName: string;
@@ -17,8 +26,8 @@ export interface IServiceRequest extends Document {
   message?: string;
   adminEmailId?: string;
   confirmationEmailId?: string;
-  adminEmailStatus?: string;
-  confirmationEmailStatus?: string;
+  adminEmailStatus: ServiceRequestEmailStatus;
+  confirmationEmailStatus: ServiceRequestEmailStatus;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -30,6 +39,7 @@ const serviceRequestSchema = new Schema<IServiceRequest>(
       required: true,
       unique: true,
       index: true,
+      trim: true,
     },
 
     firstName: {
@@ -113,20 +123,40 @@ const serviceRequestSchema = new Schema<IServiceRequest>(
     adminEmailId: {
       type: String,
       default: "",
+      trim: true,
     },
 
     confirmationEmailId: {
       type: String,
       default: "",
+      trim: true,
     },
 
     adminEmailStatus: {
       type: String,
+      enum: [
+        "pending",
+        "sent",
+        "delivered",
+        "delivery_delayed",
+        "bounced",
+        "failed",
+        "complained",
+      ],
       default: "pending",
     },
 
     confirmationEmailStatus: {
       type: String,
+      enum: [
+        "pending",
+        "sent",
+        "delivered",
+        "delivery_delayed",
+        "bounced",
+        "failed",
+        "complained",
+      ],
       default: "pending",
     },
   },

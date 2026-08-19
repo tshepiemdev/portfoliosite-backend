@@ -1,5 +1,13 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
+export type ContactEmailStatus =
+  | "sent"
+  | "delivered"
+  | "delivery_delayed"
+  | "bounced"
+  | "failed"
+  | "complained";
+
 export interface IContact extends Document {
   mail_ref: string;
   firstName: string;
@@ -11,7 +19,9 @@ export interface IContact extends Document {
   teamSize?: string;
   message: string;
   adminEmailId?: string;
+  adminEmailStatus?: ContactEmailStatus;
   confirmationEmailId?: string;
+  confirmationEmailStatus?: ContactEmailStatus;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -75,9 +85,33 @@ const contactSchema = new Schema<IContact>(
       trim: true,
     },
 
+    adminEmailStatus: {
+      type: String,
+      enum: [
+        "sent",
+        "delivered",
+        "delivery_delayed",
+        "bounced",
+        "failed",
+        "complained",
+      ],
+    },
+
     confirmationEmailId: {
       type: String,
       trim: true,
+    },
+
+    confirmationEmailStatus: {
+      type: String,
+      enum: [
+        "sent",
+        "delivered",
+        "delivery_delayed",
+        "bounced",
+        "failed",
+        "complained",
+      ],
     },
   },
   {
