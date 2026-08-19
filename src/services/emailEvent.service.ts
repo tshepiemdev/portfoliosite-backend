@@ -30,7 +30,11 @@ export const handleEmailEvent = async (
     "subscription_confirmation",
   ];
 
-  const failedStatuses = ["bounced", "failed", "complained"];
+  const failedStatuses: EmailEventStatus[] = [
+    "bounced",
+    "failed",
+    "complained",
+  ];
 
   if (
     subscriptionPurposes.includes(emailEvent.purpose) &&
@@ -52,12 +56,11 @@ export const handleEmailEvent = async (
 export const getEmailEventStatus = async (emailId: string) => {
   const emailEvent = await EmailEvent.findOne({
     resendEmailId: emailId,
-    purpose: "subscription_verification",
-  }).select("status");
+  }).select("status purpose recipient");
 
   if (!emailEvent) {
     return null;
   }
 
-  return emailEvent.status;
+  return emailEvent;
 };

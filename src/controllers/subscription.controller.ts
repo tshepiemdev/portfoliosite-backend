@@ -67,7 +67,7 @@ export const getEmailStatus = async (req: Request, res: Response) => {
 
     const emailEvent = await EmailEvent.findOne({
       resendEmailId: emailId,
-    });
+    }).select("status purpose recipient");
 
     if (!emailEvent) {
       return res.status(404).json({
@@ -79,9 +79,11 @@ export const getEmailStatus = async (req: Request, res: Response) => {
     return res.status(200).json({
       success: true,
       status: emailEvent.status,
+      purpose: emailEvent.purpose,
+      recipient: emailEvent.recipient,
     });
   } catch (error) {
-    console.error("GET /subscriptions/status error:", error);
+    console.error("GET /subscriptions/email-status error:", error);
 
     return res.status(500).json({
       success: false,
