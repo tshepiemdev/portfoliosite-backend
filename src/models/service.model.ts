@@ -45,6 +45,7 @@ export interface IService extends Document {
   deliverables: string[];
   timeline?: string;
   location?: string;
+  session?: string;
   pricing: IPricing;
   availability: IAvailability;
   legal: ILegalRef[];
@@ -122,6 +123,8 @@ const ServiceSchema = new Schema<IService>(
     timeline: String,
 
     location: String,
+
+    session: String,
 
     pricing: {
       pricingType: {
