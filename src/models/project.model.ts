@@ -7,7 +7,7 @@ export interface IProject extends Document {
   projectName: string;
   slug: string;
   projectType?: string;
-  projectCategory?: string;
+  projectYear?: number;
   projectOwnership?: string;
   projectStatus?: string;
   views: number;
@@ -17,7 +17,6 @@ export interface IProject extends Document {
   projectShortDescription?: string;
   projectStack?: string[];
   keyFeatures?: string[];
-  role?: string;
   teamSize?: number;
   projectLiveLink?: string;
   projectRepoLink?: string;
@@ -45,7 +44,7 @@ const ProjectSchema = new Schema<IProject>(
 
     projectType: String,
 
-    projectCategory: String,
+    projectYear: Number,
 
     projectOwnership: String,
 
@@ -76,8 +75,6 @@ const ProjectSchema = new Schema<IProject>(
     projectStack: [String],
 
     keyFeatures: [String],
-
-    role: String,
 
     teamSize: Number,
 
