@@ -91,3 +91,41 @@ export const incrementBlogViews = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const incrementBlogLikes = async (req: Request, res: Response) => {
+  try {
+    const blog = await Blog.findOneAndUpdate(
+      {
+        slug: req.params.slug,
+        isActive: true,
+      },
+      {
+        $inc: {
+          likes: 1,
+        },
+      },
+      {
+        new: true,
+      },
+    );
+
+    if (!blog) {
+      return res.status(404).json({
+        success: false,
+        message: "Blog not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      likes: blog.likes,
+    });
+  } catch (err) {
+    console.error(err);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update likes",
+    });
+  }
+};

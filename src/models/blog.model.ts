@@ -24,6 +24,7 @@ export interface IBlog extends Document {
   imageSource: string;
   excerpt: string;
   views: number;
+  likes: number;
   createdAt: Date;
   updatedAt: Date;
   content: {
@@ -106,6 +107,11 @@ const BlogSchema = new Schema<IBlog>(
     },
 
     views: {
+      type: Number,
+      default: 0,
+    },
+
+    likes: {
       type: Number,
       default: 0,
     },
