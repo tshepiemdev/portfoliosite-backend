@@ -14,7 +14,7 @@ app.use(
       process.env.DEV_FRONTEND_URL,
       process.env.DEV_FRONTEND_URL_ALT,
     ].filter((url): url is string => Boolean(url)),
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   }),
 );
 
