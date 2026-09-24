@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
 import Blog from "../models/blog.model";
 
-export const getBlogs = async (req: Request, res: Response): Promise<void> => {
+export const getBlogs = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   try {
     const blogs = await Blog.find({ isActive: true }).sort({
       publishedAt: -1,
@@ -146,6 +149,8 @@ export const decrementBlogLikes = async (
   res: Response,
 ): Promise<void> => {
   try {
+    console.log("UNLIKE REQUEST SLUG:", req.params.slug);
+
     const blog = await Blog.findOneAndUpdate(
       {
         slug: req.params.slug,
@@ -163,6 +168,8 @@ export const decrementBlogLikes = async (
         new: true,
       },
     );
+
+    console.log("UPDATED BLOG AFTER UNLIKE:", blog);
 
     if (!blog) {
       res.status(404).json({
